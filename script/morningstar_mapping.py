@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import element_to_be_clickable, presence_of_element_located
 
-# import requests
+from  morningstar_utils import clickpopup
 import datetime
 import time
 import os
@@ -29,12 +29,7 @@ with webdriver.Chrome(path) as driver:
     for i in range(50):
 
         # login
-        try:
-            WebDriverWait(driver, 5).until(element_to_be_clickable((By.ID, "finaprofessional"))).click()
-            WebDriverWait(driver, 1).until(element_to_be_clickable((By.ID, "_evidon-accept-button"))).click()
-            print('logging in')
-        except:
-            print('no login needed')
+        clickpopup(driver)
         
         print('processing sheet n', i)
         driver_checked = wait.until(presence_of_element_located((By.CSS_SELECTOR, "tbody")))

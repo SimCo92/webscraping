@@ -1,3 +1,12 @@
+# c:\>c:\Python35\python -m venv c:\path\to\myenv
+
+# cmd.exe
+# C:\> <venv>\Scripts\activate.bat
+
+# PowerShell
+# PS C:\> <venv>\Scripts\Activate.ps1
+
+
 import requests
 import urllib.request
 import datetime
@@ -13,21 +22,43 @@ import time
 
 date = str(datetime.date.today())
 
-LINK = 'https://www.milanofinanza.it/news/mercati/la-giornata-su-etfplus/'
-source = 'milanofinanza_etf_'
-
-# LINK = 'https://www.milanofinanza.it/news/mercati/la-giornata-sul-mot-euro-obbligazioni'
-# source = 'milanofinanza_'
-
-# LINK = 'https://www.milanofinanza.it/news/ingestione/gestioni-e-consulenti'
-# source = 'milanofinanza_consulenti_'
+# LINK = 'https://www.milanofinanza.it/news/mercati/la-giornata-su-etfplus/'
+# source = 'etf'
+# LINK = 'https://www.milanofinanza.it/news/mercati/la-giornata-sul-mot-euro-obbligazioni/'
+# source = 'obligazioni'
+# LINK = 'https://www.milanofinanza.it/news/ingestione/gestioni-e-consulenti/'
+# source = 'consulenti'
+# LINK = 'https://www.milanofinanza.it/news/lifestyle/salute/'
+# source = 'salute' # 31
+# LINK = 'https://www.milanofinanza.it/news/automotive/motori-su-strada/'
+# source = 'motori-su-strada'
+# LINK = 'https://www.milanofinanza.it/news/automotive/innovazione-e-tecnologia/'
+# source = 'innovazione-e-tecnologia'
+# LINK = 'https://www.milanofinanza.it/news/mondo/italia/'
+# source = 'italia' # fino 50
+# LINK = 'https://www.milanofinanza.it/news/business/energia/'
+# source = 'energia'
+# LINK = 'https://www.milanofinanza.it/news/business/media-tlc/'
+# source = 'media-tlc'
+# LINK = 'https://www.milanofinanza.it/news/business/industria/'
+# source = 'industria' # sono 3000 pagine fatto fino 50
+# LINK = 'https://www.milanofinanza.it/news/business/immobiliare/'
+# source = 'immobiliare'
+# LINK = 'https://www.milanofinanza.it/news/business/banche/'
+# source = 'banche' # sono 1700 pagine fino a 50
+# LINK = 'https://www.milanofinanza.it/news/business/assicurazioni/'
+# source = 'assicurazioni'
+# LINK = 'https://www.milanofinanza.it/news/business/utility/'
+# source = 'utility' # sono 266 fatto fino 50
+# LINK = 'https://www.milanofinanza.it/news/business/reatail-gdo/'
+# source = 'retail-gdo'
 
 result_map = pd.DataFrame()
 
 # TO-MODIFY
 # inserischi il numero + 1 di pagine presenti nell'archivio del Sole24ore (es: 8 schede -> n_pages = 9)
-start_page = 90
-finish_page = 99
+start_page = 1
+finish_page = 50
 
 path = os.getcwd() + '/chromedriver'
 with webdriver.Chrome(path) as driver:
@@ -53,18 +84,26 @@ with webdriver.Chrome(path) as driver:
         for i in range(resultxpage):
             news_link = news[i].find("h3").find("a")['href']
             title = news[i].find("h3").find("a").text
+            short_content = news[i].find("p").text
             date = news[i].find("time").text
             driver.get('https://www.milanofinanza.it' + str(news_link))
-            print(title, date)
+            print(news_link, title, short_content)
             driver_checked = wait.until(presence_of_element_located((By.CLASS_NAME, "corpo-articolo")))
             pagenews_html = driver_checked.get_attribute('innerHTML')
             soap_news = BeautifulSoup(pagenews_html, 'html.parser')
-            content = soap_news.find("p").text
-            print(content)
+            content_complete = soap_news.text
+            try:
+                content_list = soap_news.findAll("p")
+                n_chapters = len(content_list)
+                content = ''
+                for i in range(n_chapters):
+                    content = content + str(content_list[i].text)
+            except:
+                content = None
 
             # creazione del df
-            row_dict = { 'news_link': news_link, 'title': title, 'content': content, 'date': date }
+            row_dict = { 'news_link': news_link, 'title': title, 'short_content': short_content, 'content_complete' : content_complete, 'content': content, 'date': date }
             result_map = result_map.append([row_dict])
         
-result_map.to_csv(source + str(start_page) + 'to'+ str(finish_page) + '.csv')
+result_map.to_csv('milanofinanza_' + source + '.csv')
 
