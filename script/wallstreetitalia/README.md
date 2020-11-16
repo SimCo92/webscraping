@@ -6,4 +6,4 @@ Per ottenere questo risultato l'esecuzione e' stata parallelizzata in threads e 
 
 NOTE
 - Il formato dei file e' jupyter notebook
-- per l'esecuzione e' necessario installare Python3, BeautifulSoup4, Pandas, Numpy
+- per l'esecuzione e' necessario installare Python3, BeautifulSoup4, Pandas, Numpy, urllib3
