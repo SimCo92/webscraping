@@ -16,7 +16,7 @@ certifi==2019.3.9
 cffi==1.12.3
 chardet==3.0.4
 configparser==4.0.2
-cryptography==2.6.1
+cryptography==3.2
 decorator==4.4.2
 defusedxml==0.6.0
 docker==3.7.2
@@ -104,7 +104,7 @@ pyOpenSSL==19.0.0
 pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2013.7
-PyYAML==3.13
+PyYAML==5.1
 pyzmq==19.0.2
 requests==2.24.0
 scandir==1.10.0
