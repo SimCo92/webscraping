@@ -32,7 +32,7 @@ futures==3.3.0
 idna==2.7
 ipaddress==1.0.22
 ipykernel==4.10.1
-ipython==5.10.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 Jinja2==2.11.2
 jsonschema==2.6.0
