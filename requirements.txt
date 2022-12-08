@@ -12,7 +12,7 @@ beautifulsoup4==4.9.1
 bleach==3.2.1
 bonjour-py==0.3
 cached-property==1.5.1
-certifi==2019.3.9
+certifi==2022.12.7
 cffi==1.12.3
 chardet==3.0.4
 configparser==4.0.2
